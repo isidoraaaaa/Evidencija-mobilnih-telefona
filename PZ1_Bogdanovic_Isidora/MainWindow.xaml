@@ -1,0 +1,204 @@
+﻿<Window x:Class="PZ1_Bogdanovic_Isidora.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PZ1_Bogdanovic_Isidora"
+        mc:Ignorable="d"
+        Title="MainWindow" SizeToContent="WidthAndHeight" WindowStyle="None" 
+        ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent" MouseLeftButtonDown="Window_MouseLeftButtonDown" >
+    <Window.Resources>
+        
+        <!-- Anuliranje default izgleda dugmeta-->
+        <Style x:Key="btn_pozadina" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="btn_okvir" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Anuliranje default izgleda dugmeta -->
+
+        <!-- Promena default zaglavlja data-grida izgleda! -->
+
+        <Style x:Key="test" TargetType="DataGridColumnHeader">
+            <Setter Property="MinWidth" Value="90"/>
+            <Setter Property="Background" Value="#424242"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#616161"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+
+        <!-- Promena default zaglavlja data-grida izgleda! -->
+
+        <!-- DATA GRID CELIJE -->
+
+        <Style x:Key="dg_celije" TargetType="DataGridCell">
+            <Setter Property="Background" Value="#6a6a6a"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#616161"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- DATA GRID CELIJE -->
+    </Window.Resources>
+
+
+    <Canvas Height="700" Width="800">
+
+
+        <Path Stroke="Black" StrokeThickness="3">
+            <Path.Fill>
+                <SolidColorBrush Color="#424242"/>
+            </Path.Fill>
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="25,0">
+                        <ArcSegment Size="25,25" RotationAngle="180" IsLargeArc="False" SweepDirection="Counterclockwise" Point="0,25"/>
+                        <LineSegment Point="0,675"/>
+                        <ArcSegment Size="25,25" RotationAngle="180" IsLargeArc="False" SweepDirection="Counterclockwise" Point="25,700"/>
+                        <LineSegment Point="775,700"/>
+                        <ArcSegment Size="25,25" RotationAngle="180" IsLargeArc="False" SweepDirection="Counterclockwise" Point="800,675"/>
+                        <LineSegment Point="800,25"/>
+                        <ArcSegment Size="25,25" RotationAngle="180" IsLargeArc="False" SweepDirection="Counterclockwise" Point="775,0"/>
+                        <LineSegment Point="25,0"/>
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+
+
+        <Grid  Height="700" Width="800">
+
+        <Button x:Name="btn_izlaz" 
+                Style="{StaticResource btn_pozadina}"
+                 Width="20" Height="20"
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Center" 
+                Background="Transparent" 
+                Click="btn_izlaz_Click"
+                Margin="763,15,17,0">
+            <Image Source="Fotografije\Exit.png" />
+            <Button.ToolTip>
+                <ToolTip>
+                    Izaz
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
+
+        
+        <Button x:Name="btn_dodaj"
+                Style="{StaticResource btn_pozadina}"
+                 Width="30" 
+                Height="30" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Background="Transparent" 
+                Click="btn_dodaj_Click" 
+                Margin="14,9,0,0" >
+            <Image Source="Fotografije\googleadd.png"/>
+            <Button.ToolTip>
+                <ToolTip>
+                    Dodajte novi telefon
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
+
+
+
+        <DataGrid x:Name="dg_telefoni" ItemsSource="{Binding telefoni}" 
+                  IsReadOnly="True" 
+                  SelectionMode="Single" 
+                  AutoGenerateColumns="False" 
+                 HorizontalAlignment="Center" 
+                  VerticalAlignment="Center"
+                  Background="#424242"
+                  Foreground="#424242"  
+                  ColumnHeaderStyle ="{StaticResource test}"
+                  BorderBrush="Black" 
+                  BorderThickness="2"
+                  CellStyle="{StaticResource dg_celije}"
+                  RowHeaderWidth="0">
+
+
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn Header="Fotografija" Width="SizeToCells">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Slika_telefona}"
+                                Width="100" Height="100"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="IMEI" Binding="{Binding IMEI1}" />
+                <DataGridTextColumn Header="Model telefona" Binding="{Binding Model_telefona}" />
+                <DataGridTextColumn Header="Datum izlaska" Binding="{Binding Datum_izlaska_telefona }"/>
+                <DataGridTextColumn Header="Interna memorija" Binding="{Binding Interna_memorija}"/>
+                <DataGridTextColumn Header="Tip sima" Binding="{Binding Tip_sim}"/>
+
+                <DataGridTemplateColumn Header="Dodatne Opcije" Width="*">
+                    
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                <StackPanel.Resources>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Margin" Value="0,10,0,0"/>
+                                        <Setter Property="Width" Value="60"/>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <Button x:Name="btn_procitaj" Background="#424242" Style="{StaticResource btn_pozadina}"
+                                        Width="20" Height="20" Click="btn_procitaj_Click">
+                                    <Image Source="Fotografije\Procitaj.png"/>
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                           Procitaj
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                </Button>
+                                <Button x:Name="btn_izmeni"  Background="#424242" Style="{StaticResource btn_pozadina}" Width="20" Height="20" Click="btn_izmeni_Click">
+                                    <Image Source="Fotografije\edit.png"/>
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            Izmeni
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                </Button>
+
+                                <Button x:Name="btn_obrisi"  Background="#424242" Style="{StaticResource btn_pozadina}" Width="20" Height="20" Click="btn_obrisi_Click">
+                                    <Image Source="Fotografije\Delete.png"/>
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            Obrisi
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+            </DataGrid.Columns>
+            
+            
+        </DataGrid>
+        
+
+    </Grid>
+
+    </Canvas>
+
+</Window>
